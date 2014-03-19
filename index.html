@@ -60,7 +60,7 @@
             <section id="demoGet">
                 <h3>Retrieve records from the "todo" sample table located in your DreamFactory Services Platform</h3>
 
-                <pre class="prettyprint languague-javascript">$scope.Todo.getList().success(console.log).error(console.error);</pre>
+                <pre class="prettyprint languague-javascript">DreamFactory(dsp_url, app_name, 'todo').getList().success(console.log).error(console.error);</pre>
                 <div class="form-group">
                     <button ng-disabled="disabled.get||!loggedIn" class="btn btn-default" ng-click="getTodos()">getTodos</button>
                 </div>
@@ -77,7 +77,7 @@
             <section id="demoInsert">
                 <h3>Insert records into the "todo" sample table located in your DreamFactory Services Platform</h3>
 
-                <pre class="prettyprint languague-javascript">$scope.Todo.insert({"name":"New Item","complete":false}).success(console.log).error(console.error);</pre>
+                <pre class="prettyprint languague-javascript">DreamFactory(dsp_url, app_name, 'todo').insert({"name":"New Item","complete":false}).success(console.log).error(console.error);</pre>
                 <div class="form-group">
                     <button ng-disabled="disabled.insert||!loggedIn" class="btn btn-default" ng-click="addTodo()">addTodo</button>
                 </div>
@@ -93,7 +93,7 @@
 
             <section id="demoUpdate">
                 <h3>Update a record to be complete in the "todo" sample table located in your DreamFactory Services Platform</h3>
-                <pre class="prettyprint languague-javascript">$scope.Todo.update(updateId, {"complete":true})</pre>
+                <pre class="prettyprint languague-javascript">DreamFactory(dsp_url, app_name, 'todo').update(updateId, {"complete":true})</pre>
                 <div class="form-group">
                     <label for="updateId">ID of record to mark complete</label>
                     <input id="updateId" ng-disabled="disabled.update||!loggedIn" type="number" class="form-control" placeholder="ID" min="0" ng-model="updateId">
@@ -113,7 +113,7 @@
 
             <section id="demoDelete">
                 <h3>Delete a record from the "todo" sample table located in your DreamFactory Services Platform</h3>
-                <pre class="prettyprint languague-javascript">$scope.Todo.delete(deleteId)</pre>
+                <pre class="prettyprint languague-javascript">DreamFactory(dsp_url, app_name, 'todo').delete(deleteId)</pre>
                 <div class="form-group">
                     <label for="deleteId">ID of record to delete</label>
                     <input id="deleteId" ng-disabled="disabled.delete||!loggedIn" type="number" class="form-control" placeholder="ID" min="0" ng-model="deleteId">
