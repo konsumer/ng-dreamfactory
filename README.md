@@ -4,8 +4,6 @@ In the the `todoangular` demo I downloaded from [DreamFactory](https://www.dream
 
 You can see it in action, [here](http://konsumer.github.io/ng-dreamfactory/)
 
-I think this could be greatly improved if things were moved to `$http`, and the shred/swagger stuff was not used.
-
 ## Usage
 
 Go edit lib/demo.js, change `dsp_url` & `app_name`.

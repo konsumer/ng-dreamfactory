@@ -5,8 +5,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Bootstrap Angular DreamFactory Demo</title>
-
-        <link href="lib/prettify.css" type="text/css" rel="stylesheet" />
         
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
@@ -18,14 +16,10 @@
         <div class="container" ng-controller="AngularDreamFactoryDemoController">
             <header class="jumbotron">
                 <h1>DreamFactory</h1>
-                <p>This demonstrates Twitter Bootstrap &amp; AngularJS to utilize the auto-generated DreamFactory SDK files.</p>
+                <p>This demonstrates Twitter Bootstrap &amp; AngularJS to utilize the DreamFactory API.</p>
             </header>
 
             <section id="intro">
-                <p>The Javascript SDK is a convenience wrapper for all the methods in our REST API. The SDK contains your REST endpoint and API key so you can start coding immediately. When a new service is provisioned in the Admin Console the JavaScript SDK will automatically include that service the next time your application is loaded.</p>
-
-                <p>Access the SDK by using the <code>df</code> object. You can see the <code>df</code> object in your debugger by opening up the DOM inspection tab. The <code>df</code> object is attached to the <code>window</code> object. For example, using Chrome's Dev Tools, open the console and start typing <code>window.df.apis</code> to display all the methods and properties.</p>
-
                 <p>Use of this SDK on the local file system requires <code>*</code> to be in your list of allowed hosts in the CORS configuration section of the Admin app.</p>
                 
                 <p>View the <a href="readme.html">README</a> for helpful information and tutorials, including CORS access, authentication, and sessions.</p>
@@ -53,10 +47,10 @@
                     <input type="password" class="form-control" id="password" placeholder="Password" ng-model="user.password">
                 </div>
                 
-                <button ng-disabled="disabled.login" type="submit" class="btn btn-primary" ng-click="login()">login</button>
+                <button ng-disabled="disabled.login" type="submit" class="btn btn-primary" ng-click="login(user.email, user.password)">login</button>
             </section>
 
-            <section ng-show="records.length>0" id="demoList">
+            <section ng-init="records = Todo.get()" ng-show="records.length>0" id="demoList">
                 <h3>Here are the current records:</h3>
                 <ul>
                     <li ng-repeat="record in records" ng-class="{complete:record.complete}">{{record.name}}</li>
@@ -66,10 +60,7 @@
             <section id="demoGet">
                 <h3>Retrieve records from the "todo" sample table located in your DreamFactory Services Platform</h3>
 
-                <pre class="prettyprint languague-javascript">
-window.df.apis.db.getRecords({"table_name": "todo"}, function (response) {
-    console.log(response);
-});</pre>
+                <pre class="prettyprint languague-javascript">$scope.Todo.getList().success(console.log).error(console.error);</pre>
                 <div class="form-group">
                     <button ng-disabled="disabled.get||!loggedIn" class="btn btn-default" ng-click="getTodos()">getTodos</button>
                 </div>
@@ -79,20 +70,14 @@ window.df.apis.db.getRecords({"table_name": "todo"}, function (response) {
                 </output>
                 
                 <div class="form-group">
-                    <pre ng-show="responses.get" class="prettyprint languague-json" ng-bind="responses.get"></pre>
+                    <pre ng-show="responses.get" class="prettyprint languague-json">{{responses.get|json}}</pre>
                 </div>
             </section>
 
             <section id="demoInsert">
                 <h3>Insert records into the "todo" sample table located in your DreamFactory Services Platform</h3>
 
-                <pre class="prettyprint languague-javascript">
-var item = {"record":[{"name":"New Item","complete":false}]};
-window.df.apis.db.createRecords({"table_name":"todo", "body":item}, function(response) {
-    console.log(response);
-}, function(response) {
-    console.error(response);
-});</pre>
+                <pre class="prettyprint languague-javascript">$scope.Todo.insert({"name":"New Item","complete":false}).success(console.log).error(console.error);</pre>
                 <div class="form-group">
                     <button ng-disabled="disabled.insert||!loggedIn" class="btn btn-default" ng-click="addTodo()">addTodo</button>
                 </div>
@@ -102,19 +87,13 @@ window.df.apis.db.createRecords({"table_name":"todo", "body":item}, function(res
                 </output>
                 
                 <div class="form-group">
-                    <pre ng-show="responses.insert" class="prettyprint languague-json" ng-bind="responses.insert"></pre>
+                    <pre ng-show="responses.insert" class="prettyprint languague-json">{{responses.insert|json}}</pre>
                 </div>
             </section>
 
             <section id="demoUpdate">
                 <h3>Update a record to be complete in the "todo" sample table located in your DreamFactory Services Platform</h3>
-                <pre class="prettyprint languague-javascript">
-var item = {"record":[{"id":5,"complete":true}]};
-window.df.apis.db.updateRecords({"table_name":"todo", "body":item}, function(response) {
-    console.log(response);
-}, function(response) {
-    console.error(response);
-});</pre>
+                <pre class="prettyprint languague-javascript">$scope.Todo.update(updateId, {"complete":true})</pre>
                 <div class="form-group">
                     <label for="updateId">ID of record to mark complete</label>
                     <input id="updateId" ng-disabled="disabled.update||!loggedIn" type="number" class="form-control" placeholder="ID" min="0" ng-model="updateId">
@@ -128,18 +107,13 @@ window.df.apis.db.updateRecords({"table_name":"todo", "body":item}, function(res
                 </output>
                 
                 <div class="form-group">
-                    <pre ng-show="responses.update" class="prettyprint languague-json" ng-bind="responses.update"></pre>
+                    <pre ng-show="responses.update" class="prettyprint languague-json">{{responses.update|json}}</pre>
                 </div>
             </section>
 
             <section id="demoDelete">
                 <h3>Delete a record from the "todo" sample table located in your DreamFactory Services Platform</h3>
-                <pre class="prettyprint languague-javascript">
-window.df.apis.db.deleteRecords({"table_name":"todo", "ids":5}, function(response) {
-    console.log(response);
-}, function(response) {
-    console.error(response);
-});</pre>
+                <pre class="prettyprint languague-javascript">$scope.Todo.delete(deleteId)</pre>
                 <div class="form-group">
                     <label for="deleteId">ID of record to delete</label>
                     <input id="deleteId" ng-disabled="disabled.delete||!loggedIn" type="number" class="form-control" placeholder="ID" min="0" ng-model="deleteId">
@@ -153,7 +127,7 @@ window.df.apis.db.deleteRecords({"table_name":"todo", "ids":5}, function(respons
                 </output>
                 
                 <div class="form-group">
-                    <pre ng-show="responses.delete" class="prettyprint languague-json" ng-bind="responses.delete"></pre>
+                    <pre ng-show="responses.delete" class="prettyprint languague-json">{{responses.delete|json}}</pre>
                 </div>
             </section>
         </div>
@@ -161,15 +135,9 @@ window.df.apis.db.deleteRecords({"table_name":"todo", "ids":5}, function(respons
     <!-- basic old browser shimming & css selectors -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.dev.js"></script>
 
-    <!-- load the API wrapper -->
-    <script src='lib/shred.bundle.js' type='text/javascript'></script>
-    <script src='lib/swagger.js' type='text/javascript'></script>
-
     <!-- load angular from CDN -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
-
-    <!-- optional: for code syntax-highlighting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-resource.min.js"></script>
 
     <!-- my code -->
     <script src="lib/DreamFactory.js"></script>
