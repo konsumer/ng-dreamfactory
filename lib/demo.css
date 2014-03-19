@@ -1,0 +1,17 @@
+body{
+    margin: 20px;
+}
+
+section {
+    border-bottom:1px solid #666;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+section:last-child{
+    border-bottom:none;
+}
+
+li.complete {
+	text-decoration: line-through;
+}
